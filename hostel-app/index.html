@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostelPro — Tenant Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- LOGIN -->
+<!-- SPLASH -->
+<div id="splashScreen">
+  <div class="splash-inner">
+    <div class="splash-icon"><i class="fa-solid fa-building"></i></div>
+    <div class="splash-name">HostelPro</div>
+    <div class="splash-tag">Smart Hostel Management</div>
+    <div class="splash-loader"><div class="splash-bar"></div></div>
+  </div>
+</div>
+
+<div id="loginScreen" style="display:none">
+  <div class="login-bg">
+    <div class="login-left">
+      <div class="ll-logo">
+        <div class="ll-icon"><i class="fa-solid fa-building"></i></div>
+        <span class="ll-name">HostelPro</span>
+      </div>
+      <div class="ll-tagline">Your Home,<br>Away From Home</div>
+      <p class="ll-sub">View your room, pay rent, raise complaints and track your stay.</p>
+      <div class="ll-features">
+        <div class="ll-feat"><i class="fa-solid fa-door-open"></i> Room &amp; Bed Info</div>
+        <div class="ll-feat"><i class="fa-solid fa-indian-rupee-sign"></i> Pay &amp; Track Rent</div>
+        <div class="ll-feat"><i class="fa-solid fa-triangle-exclamation"></i> Raise Complaints</div>
+        <div class="ll-feat"><i class="fa-solid fa-bullhorn"></i> Hostel Notices</div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-card">
+        <div class="lc-head">
+          <div class="lc-role-tag user-tag"><i class="fa-solid fa-user"></i> Tenant Login</div>
+          <h2>Welcome back</h2>
+          <p>Login with your registered phone or name</p>
+        </div>
+        <div class="field-block">
+          <label>Phone / Name</label>
+          <div class="field-wrap">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="loginUser" placeholder="Enter phone or name" />
+          </div>
+        </div>
+        <div class="field-block">
+          <label>Password</label>
+          <div class="field-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="loginPass" placeholder="Enter your password" />
+          </div>
+        </div>
+        <button class="btn-login" onclick="doUserLogin()">LOGIN</button>
+        <p class="login-hint">Demo: enter any name &amp; password</p>
+        <div class="login-divider">or</div>
+        <a href="/admin" class="btn-admin-link"><i class="fa-solid fa-shield-halved"></i> Admin / Owner Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP (hidden by default) -->
+<div id="appShell" style="display:none">
+  <header class="top-header">
+    <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+    <div class="header-logo">
+      <div class="header-logo-icon"><i class="fa-solid fa-building"></i></div>
+    </div>
+    <div class="header-title" id="pageTitle"></div>
+    <div class="header-right">
+      <button class="icon-btn notif-btn" onclick="showNotifications()">
+        <i class="fa-solid fa-bell"></i><span class="badge">2</span>
+      </button>
+      <div class="avatar" id="userAvatar" onclick="navigate('myprofile')">TP</div>
+    </div>
+  </header>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="sb-logo-icon"><i class="fa-solid fa-building"></i></div>
+      <div><div class="sb-name">HostelPro</div><div class="sb-sub">Tenant Portal</div></div>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="navigate('home')"><i class="fa-solid fa-house"></i> My Home</li>
+      <li class="nav-item" onclick="navigate('myroom')"><i class="fa-solid fa-door-open"></i> My Room</li>
+      <li class="nav-item" onclick="navigate('myrent')"><i class="fa-solid fa-indian-rupee-sign"></i> Rent &amp; Payments</li>
+      <li class="nav-item" onclick="navigate('mycomplaints')"><i class="fa-solid fa-triangle-exclamation"></i> My Complaints</li>
+      <li class="nav-item" onclick="navigate('notices')"><i class="fa-solid fa-bullhorn"></i> Notices</li>
+      <li class="nav-item" onclick="navigate('myprofile')"><i class="fa-solid fa-user"></i> My Profile</li>
+    </ul>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </nav>
+
+  <main class="main-content" id="mainContent"></main>
+
+  <nav class="bottom-nav">
+    <button class="bnav-item active" onclick="navigate('home')" id="bn-home"><i class="fa-solid fa-house"></i><span>Home</span></button>
+    <button class="bnav-item" onclick="navigate('myroom')" id="bn-myroom"><i class="fa-solid fa-door-open"></i><span>Room</span></button>
+    <button class="bnav-item" onclick="navigate('myrent')" id="bn-myrent"><i class="fa-solid fa-indian-rupee-sign"></i><span>Rent</span></button>
+    <button class="bnav-item" onclick="navigate('mycomplaints')" id="bn-mycomplaints"><i class="fa-solid fa-triangle-exclamation"></i><span>Issues</span></button>
+    <button class="bnav-item" onclick="navigate('myprofile')" id="bn-myprofile"><i class="fa-solid fa-user"></i><span>Profile</span></button>
+  </nav>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div class="panel-overlay" id="notifOverlay" onclick="closeNotif()"></div>
+<div class="side-panel" id="notifPanel">
+  <div class="panel-header">
+    <h3>Notifications</h3>
+    <button onclick="closeNotif()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="notif-list">
+    <div class="notif-item unread">
+      <div class="notif-icon pay"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+      <div><b>Rent Due</b><p>Your rent of ₹5,000 is due today</p><span>Today</span></div>
+    </div>
+    <div class="notif-item unread">
+      <div class="notif-icon ok"><i class="fa-solid fa-circle-check"></i></div>
+      <div><b>Complaint Resolved</b><p>AC Not Cooling — marked resolved</p><span>Yesterday</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <h3 id="modalTitle"></h3>
+    <button onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<script src="user.js"></script>
+</body>
+</html>

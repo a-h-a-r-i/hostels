@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostelPro â€” Admin Panel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ADMIN LOGIN -->
+<!-- SPLASH -->
+<div id="splashScreen">
+  <div class="splash-inner">
+    <div class="splash-icon admin-splash-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="splash-name">HostelPro</div>
+    <div class="splash-tag">Admin Panel</div>
+    <div class="splash-loader"><div class="splash-bar"></div></div>
+  </div>
+</div>
+
+<div id="loginScreen" style="display:none">
+  <div class="login-bg admin-login-bg">
+    <div class="login-left admin-left">
+      <div class="ll-logo">
+        <div class="ll-icon admin-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <span class="ll-name">HostelPro</span>
+      </div>
+      <div class="ll-tagline">Admin &amp;<br>Owner Panel</div>
+      <p class="ll-sub">Full control over rooms, tenants, payments, complaints, staff and reports.</p>
+      <div class="ll-features">
+        <div class="ll-feat"><i class="fa-solid fa-gauge"></i> Dashboard &amp; Analytics</div>
+        <div class="ll-feat"><i class="fa-solid fa-users"></i> Manage Tenants &amp; Staff</div>
+        <div class="ll-feat"><i class="fa-solid fa-indian-rupee-sign"></i> Payments &amp; Expenses</div>
+        <div class="ll-feat"><i class="fa-solid fa-chart-bar"></i> Reports</div>
+      </div>
+      <div class="login-role-badge admin-badge"><i class="fa-solid fa-shield-halved"></i> Admin Portal</div>
+    </div>
+    <div class="login-right">
+      <div class="login-card">
+        <div class="lc-head">
+          <div class="lc-role-tag admin-tag"><i class="fa-solid fa-shield-halved"></i> Admin Login</div>
+          <h2>Admin Access</h2>
+          <p>Login with your admin credentials</p>
+        </div>
+        <div class="field-block">
+          <label>Admin Username</label>
+          <div class="field-wrap">
+            <i class="fa-solid fa-user-shield"></i>
+            <input type="text" id="loginUser" placeholder="Enter admin username" />
+          </div>
+        </div>
+        <div class="field-block">
+          <label>Password</label>
+          <div class="field-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="loginPass" placeholder="Enter admin password" />
+          </div>
+        </div>
+        <button class="btn-login btn-admin-login" onclick="doAdminLogin()">LOGIN AS ADMIN</button>
+        <p class="login-hint">Demo: username <b>admin</b> / password <b>admin</b></p>
+        <div class="login-divider">or</div>
+        <a href="/" class="btn-user-link"><i class="fa-solid fa-user"></i> Tenant Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN APP SHELL -->
+<div id="appShell" style="display:none">
+  <header class="top-header admin-header">
+    <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+    <div class="header-logo">
+      <div class="header-logo-icon admin-logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+    </div>
+    <div class="header-title" id="pageTitle"></div>
+    <div class="header-right">
+      <button class="icon-btn notif-btn" onclick="showNotifications()">
+        <i class="fa-solid fa-bell"></i><span class="badge">3</span>
+      </button>
+      <div class="avatar admin-avatar" onclick="showProfile()">OP</div>
+    </div>
+  </header>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-head admin-sidebar-head">
+      <div class="sb-logo-icon admin-sb-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <div><div class="sb-name">HostelPro</div><div class="sb-sub">Owner Panel</div></div>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="navigate('dashboard')"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+      <li class="nav-item" onclick="navigate('rooms')"><i class="fa-solid fa-door-open"></i> Rooms &amp; Beds</li>
+      <li class="nav-item" onclick="navigate('tenants')"><i class="fa-solid fa-users"></i> Tenants</li>
+      <li class="nav-item" onclick="navigate('payments')"><i class="fa-solid fa-indian-rupee-sign"></i> Payments</li>
+      <li class="nav-item" onclick="navigate('complaints')"><i class="fa-solid fa-triangle-exclamation"></i> Complaints</li>
+      <li class="nav-item" onclick="navigate('expenses')"><i class="fa-solid fa-receipt"></i> Expenses</li>
+      <li class="nav-item" onclick="navigate('staff')"><i class="fa-solid fa-user-tie"></i> Staff</li>
+      <li class="nav-item" onclick="navigate('reports')"><i class="fa-solid fa-chart-bar"></i> Reports</li>
+      <li class="nav-item" onclick="navigate('settings')"><i class="fa-solid fa-gear"></i> Settings</li>
+    </ul>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+  </nav>
+
+  <main class="main-content" id="mainContent"></main>
+
+  <nav class="bottom-nav">
+    <button class="bnav-item active" onclick="navigate('dashboard')" id="bn-dashboard"><i class="fa-solid fa-gauge"></i><span>Home</span></button>
+    <button class="bnav-item" onclick="navigate('rooms')" id="bn-rooms"><i class="fa-solid fa-door-open"></i><span>Rooms</span></button>
+    <button class="bnav-item" onclick="navigate('tenants')" id="bn-tenants"><i class="fa-solid fa-users"></i><span>Tenants</span></button>
+    <button class="bnav-item" onclick="navigate('payments')" id="bn-payments"><i class="fa-solid fa-indian-rupee-sign"></i><span>Pay</span></button>
+    <button class="bnav-item" onclick="navigate('complaints')" id="bn-complaints"><i class="fa-solid fa-triangle-exclamation"></i><span>Issues</span></button>
+  </nav>
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div class="panel-overlay" id="notifOverlay" onclick="closeNotif()"></div>
+<div class="side-panel" id="notifPanel">
+  <div class="panel-header">
+    <h3>Notifications</h3>
+    <button onclick="closeNotif()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="notif-list">
+    <div class="notif-item unread">
+      <div class="notif-icon pay"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+      <div><b>Rent Due</b><p>Room R101 â€” Rahul's rent is due today</p><span>2 hrs ago</span></div>
+    </div>
+    <div class="notif-item unread">
+      <div class="notif-icon warn"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div><b>New Complaint</b><p>Room R203 â€” WiFi not working</p><span>5 hrs ago</span></div>
+    </div>
+    <div class="notif-item">
+      <div class="notif-icon ok"><i class="fa-solid fa-user-plus"></i></div>
+      <div><b>New Check-in</b><p>Priya checked into Room R305</p><span>Yesterday</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <h3 id="modalTitle">Modal</h3>
+    <button onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
