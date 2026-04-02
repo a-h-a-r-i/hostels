@@ -1,10 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "hostel-app/server.js", "use": "@vercel/node" }
-  ],
+  "outputDirectory": "hostel-app",
   "routes": [
-    { "src": "/admin", "dest": "/hostel-app/server.js" },
-    { "src": "/(.*)", "dest": "/hostel-app/server.js" }
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/admin/", "dest": "/admin.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
