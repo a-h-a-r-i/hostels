@@ -1,0 +1,13 @@
+{
+  "name": "hostelpro",
+  "version": "1.0.0",
+  "description": "Smart Hostel Management System",
+  "main": "hostel-app/server.js",
+  "scripts": {
+    "start": "node hostel-app/server.js",
+    "dev":   "node hostel-app/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
